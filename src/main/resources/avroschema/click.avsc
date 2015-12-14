@@ -1,7 +1,7 @@
 {
     "namespace" : "example.clickstream",
     "type": "record",
-    "name": "click",
+    "name": "Click",
     "fields": [
         {"name": "ip", "type" : "string"},
         {"name": "userAgent", "type" : "string"},
