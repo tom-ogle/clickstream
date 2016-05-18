@@ -1,13 +1,17 @@
 {
     "namespace" : "example.clickstream",
     "type": "record",
-    "name": "Click",
+    "name": "EnrichedClick",
     "fields": [
         {"name": "ip", "type" : "string"},
         {"name": "userAgent", "type" : "string"},
         {"name": "timestamp", "type": "string"},
         {"name": "url", "type" : "string"},
-        {"name": "referer", "type" : "string"}
+        {"name": "referer", "type" : "string"},
+        {"name": "tags", "type":
+            { "type": "map", "values": "string"}
+        }
     ]
+
 
 }

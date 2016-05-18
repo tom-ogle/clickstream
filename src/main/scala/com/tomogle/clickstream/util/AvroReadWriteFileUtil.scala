@@ -1,4 +1,4 @@
-package example.clickstream.util
+package com.tomogle.clickstream.util
 
 import java.io.File
 
@@ -6,9 +6,6 @@ import org.apache.avro.Schema
 import org.apache.avro.file.{DataFileReader, DataFileWriter}
 import org.apache.avro.specific.{SpecificDatumReader, SpecificDatumWriter, SpecificRecord}
 
-/**
-  *
-  */
 class AvroReadWriteFileUtil[T <: SpecificRecord] {
 
   lazy val datumWriter = new SpecificDatumWriter[T]()
@@ -16,10 +13,10 @@ class AvroReadWriteFileUtil[T <: SpecificRecord] {
 
   def writeToFile(filePath: String, objectsToWriteToFile: Seq[T], schema: Schema): Unit = {
     if (objectsToWriteToFile.nonEmpty) {
-      val file: File = new File(filePath)
+      val file = new File(filePath)
       val datumFileWriter = new DataFileWriter[T](datumWriter)
-      datumFileWriter.create(schema, file)
       try {
+        datumFileWriter.create(schema, file)
         objectsToWriteToFile foreach datumFileWriter.append
       } finally {
         datumFileWriter.close()
