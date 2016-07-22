@@ -15,11 +15,9 @@ class AvroReadWriteFileUtil[T <: SpecificRecord] {
     if (objectsToWriteToFile.nonEmpty) {
       val file = new File(filePath)
       val datumFileWriter = new DataFileWriter[T](datumWriter)
-      try {
-        datumFileWriter.create(schema, file)
-        objectsToWriteToFile foreach datumFileWriter.append
-      } finally {
-        datumFileWriter.close()
+      using(datumFileWriter) { writer =>
+        writer.create(schema, file)
+        objectsToWriteToFile foreach writer.append
       }
     }
   }
@@ -28,14 +26,11 @@ class AvroReadWriteFileUtil[T <: SpecificRecord] {
     val file: File = new File(filePath)
     val dataFileReader = new DataFileReader[T](file, datumReader)
     var results = List[T]()
-    try {
-      while(dataFileReader.hasNext) {
-        val thisObj = dataFileReader.next()
+    using(dataFileReader) { reader =>
+      while(reader.hasNext) {
+        val thisObj = reader.next()
         results = thisObj :: results
       }
-
-    } finally {
-      dataFileReader.close()
     }
     results
   }

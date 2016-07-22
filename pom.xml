@@ -13,8 +13,20 @@
         <scala.version>2.11.2</scala.version>
         <scala.binary.version>2.11</scala.binary.version>
         <spark.version>1.6.1</spark.version>
+        <kafka-clients.version>0.8.2.1</kafka-clients.version>
+        <scalatest.version>2.2.0</scalatest.version>
+        <scalacheck.version>1.11.4</scalacheck.version>
+        <avro.version>1.7.7</avro.version>
+        <spark-cassandra-connector.version>1.6.0</spark-cassandra-connector.version>
     </properties>
 
+    <repositories>
+        <repository>
+            <id>spark-packages-repo</id>
+            <name>Spark Packages Repo</name>
+            <url>https://dl.bintray.com/spark-packages/maven</url>
+        </repository>
+    </repositories>
     <build>
         <sourceDirectory>src/main/scala</sourceDirectory>
         <testSourceDirectory>src/test/scala</testSourceDirectory>
@@ -70,7 +82,7 @@
             <plugin>
                 <groupId>org.apache.avro</groupId>
                 <artifactId>avro-maven-plugin</artifactId>
-                <version>1.7.7</version>
+                <version>${avro.version}</version>
                 <executions>
                     <execution>
                         <phase>generate-sources</phase>
@@ -104,9 +116,9 @@
         <dependency>
             <groupId>org.apache.avro</groupId>
             <artifactId>avro</artifactId>
-            <version>1.7.7</version>
+            <version>${avro.version}</version>
         </dependency>
-
+        <!-- TODO: Some dependencies should be set to provided for deploying to a cluster -->
         <dependency>
             <groupId>org.apache.spark</groupId>
             <artifactId>spark-core_${scala.binary.version}</artifactId>
@@ -117,17 +129,31 @@
             <artifactId>spark-streaming_${scala.binary.version}</artifactId>
             <version>${spark.version}</version>
         </dependency>
-
+        <dependency>
+            <groupId>org.apache.spark</groupId>
+            <artifactId>spark-sql_${scala.binary.version}</artifactId>
+            <version>${spark.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.spark</groupId>
+            <artifactId>spark-streaming-kafka_${scala.binary.version}</artifactId>
+            <version>${spark.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.datastax.spark</groupId>
+            <artifactId>spark-cassandra-connector_${scala.binary.version}</artifactId>
+            <version>${spark-cassandra-connector.version}</version>
+        </dependency>
         <dependency>
             <groupId>org.scalacheck</groupId>
             <artifactId>scalacheck_${scala.binary.version}</artifactId>
-            <version>1.11.4</version>
+            <version>${scalacheck.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.scalatest</groupId>
             <artifactId>scalatest_${scala.binary.version}</artifactId>
-            <version>2.2.0</version>
+            <version>${scalatest.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -136,5 +162,11 @@
             <version>${spark.version}_0.3.3</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.apache.kafka</groupId>
+            <artifactId>kafka-clients</artifactId>
+            <version>${kafka-clients.version}</version>
+        </dependency>
+
     </dependencies>
 </project>

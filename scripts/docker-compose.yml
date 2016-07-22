@@ -1,0 +1,26 @@
+
+zookeeper:
+  image: wurstmeister/zookeeper
+  ports:
+    - "2181:2181"
+
+kafka:
+  image: wurstmeister/kafka:0.8.2.2
+  environment:
+    KAFKA_ADVERTISED_HOST_NAME: "192.168.99.100"
+    KAFKA_CREATE_TOPICS: "InTopic:3:1"
+    KAFKA_ADVERTISED_PORT: "9092"
+    KAFKA_ZOOKEEPER_CONNECT: zk:2181
+  ports:
+    - "9092:9092"
+  links:
+    - zookeeper:zk
+  volumes:
+    - /var/run/docker.sock:/var/run/docker.sock
+
+cassandra-1:
+  image: cassandra:3.7
+  ports:
+    - "7000:7000"
+    - "9042:9042"
+    - "9160:9160"
